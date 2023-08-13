@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: pgadmin
+        image: dpage/pgadmin4:latest
+        env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          valueFrom: 
+            secretKeyRef:
+              name: pgadmin-secret
+              key: PGADMIN_DEFAULT_EMAIL
+        - name: PGADMIN_DEFAULT_PASSWORD
+          valueFrom: 
+            secretKeyRef:
+              name: pgadmin-secret
+              key: PGADMIN_DEFAULT_PASSWORD
+        - name: PGADMIN_LISTEN_PORT
+          value: "80"
+        - name: PGADMIN_DEFAULT_SERVER
+          value: "postgres"

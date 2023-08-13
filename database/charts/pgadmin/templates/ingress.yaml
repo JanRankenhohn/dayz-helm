@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: proxy_set_header X-Script-Name /pgadmin;
+  name: pgadmin
+  labels:
+    name: pgadmin
+spec:
+  rules:
+  - host: postgres-starter.local
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/pgadmin"
+        backend:
+          service:
+            name: pgadmin
+            port: 
+              number: 80

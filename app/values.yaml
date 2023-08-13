@@ -1,0 +1,11 @@
+frontend:
+  fullName: dayz-frontend
+  image: janrankenhohn/dayz:latest
+
+  service:
+    internalPort: 80
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    baseDomain: dayz.local
